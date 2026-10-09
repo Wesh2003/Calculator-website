@@ -37,6 +37,32 @@
               <p class="display-value" id="display-value" aria-label="Current value">0</p>
             </div>
 
+            <section class="scientific-panel" aria-label="Scientific functions">
+              <div class="scientific-heading">
+                <span>Scientific</span>
+                <button class="angle-toggle" id="angle-toggle" type="button" aria-pressed="false" aria-label="Angle mode: degrees. Switch to radians">DEG</button>
+              </div>
+              <div class="scientific-keys">
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="sin" aria-label="Sine">sin</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="cos" aria-label="Cosine">cos</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="tan" aria-label="Tangent">tan</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="ln" aria-label="Natural logarithm">ln</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="log" aria-label="Base 10 logarithm">log</button>
+
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="asin" aria-label="Inverse sine">sin⁻¹</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="acos" aria-label="Inverse cosine">cos⁻¹</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="atan" aria-label="Inverse tangent">tan⁻¹</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="sqrt" aria-label="Square root">√x</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="square" aria-label="Square">x²</button>
+
+                <button class="key key-scientific" type="button" data-action="operator" data-value="^" aria-label="Raise to a power">xʸ</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="reciprocal" aria-label="Reciprocal">1/x</button>
+                <button class="key key-scientific" type="button" data-action="scientific" data-value="factorial" aria-label="Factorial">n!</button>
+                <button class="key key-scientific" type="button" data-action="constant" data-value="pi" aria-label="Pi">π</button>
+                <button class="key key-scientific" type="button" data-action="constant" data-value="e" aria-label="Euler's number">e</button>
+              </div>
+            </section>
+
             <div class="keypad" aria-label="Calculator keys">
               <button class="key key-function" type="button" data-action="clear" aria-label="Clear all">AC</button>
               <button class="key key-function" type="button" data-action="sign" aria-label="Change sign">+/−</button>

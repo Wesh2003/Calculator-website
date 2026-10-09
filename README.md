@@ -5,10 +5,12 @@ A responsive, client-side calculator built with HTML, CSS, and vanilla JavaScrip
 ## Features
 
 - Addition, subtraction, multiplication, division, decimals, percentages, and sign toggle
+- Scientific functions: sin/cos/tan and inverses, ln/log, square root, square, power, reciprocal, and factorial
+- π and e constants, with a degree/radian mode that remembers its setting
 - Chained and repeated-equals calculations, clear, and delete
 - Floating-point cleanup and friendly handling for division by zero and out-of-range results
-- Keyboard controls for digits, decimal, operators, Enter, Backspace, Escape, and `%`
-- Recent calculation history and light/dark theme, both saved in local storage
+- Keyboard controls for digits, decimal, `+`, `-`, `*`, `/`, `^`, Enter, Backspace, Escape, and `%`
+- Recent calculation history, light/dark theme, and angle mode saved in local storage
 - Responsive layout, visible keyboard focus, descriptive button labels, and reduced-motion support
 
 ## Project structure
@@ -23,7 +25,7 @@ Calculator-WebApp/
 │   ├── style.css
 │   └── script.js
 └── backend/
-	└── README.md          # Explains why no server code is needed
+    └── README.md          # Explains why no server code is needed
 ```
 
 The root `index.html` forwards to `frontend/`. The calculator and its relative asset links live in `frontend/`, so GitHub Pages project URLs with a repository-name path work without hardcoded hostnames.
@@ -86,5 +88,8 @@ GitHub Pages rebuilds the site from the new `main` commit. Allow a short time fo
 - [x] Relative asset URLs support a GitHub Pages repository subpath.
 - [x] Browser-tested addition, subtraction, multiplication, division, decimals, percent, chained/repeated calculations, invalid operator sequences, sign toggle, and divide-by-zero/out-of-range errors.
 - [x] Browser-tested keyboard entry, Enter, Backspace, Escape, DEL, history clear, and local-storage history/theme persistence across reloads.
-- [x] Browser-tested responsive layout at 390px and 1440px with no horizontal overflow; no browser console errors were observed.
+- [x] Browser-tested responsive layout at 320px, 390px, and 1440px with no horizontal overflow; no browser console errors were observed.
+- [x] Browser-tested scientific functions, including trig/inverse trig, logarithms, roots, powers, reciprocal, factorial, constants, DEG/RAD switching, and saved angle mode.
+- [x] Browser-tested scientific domain errors for tangent and logarithm, plus keyboard exponentiation.
+- [x] Verified Enter activates a focused scientific button while page-level Enter still performs equals.
 - [x] Opened the root `index.html` directly and confirmed it forwards to the working calculator without a development server.

@@ -2,13 +2,15 @@
 
 const displayValue = document.querySelector("#display-value");
 const displayExpression = document.querySelector("#display-expression");
-const keypad = document.querySelector(".keypad");
+const calculator = document.querySelector(".calculator");
 const historyList = document.querySelector("#history-list");
 const historyEmpty = document.querySelector("#history-empty");
 const themeToggle = document.querySelector("#theme-toggle");
 const clearHistoryButton = document.querySelector("#clear-history");
+const angleToggle = document.querySelector("#angle-toggle");
 const historyStorageKey = "soma-calculator-history";
 const themeStorageKey = "soma-calculator-theme";
+const angleStorageKey = "soma-calculator-angle-mode";
 
 let currentInput = "0";
 let storedValue = null;
@@ -19,6 +21,7 @@ let lastOperator = null;
 let lastOperand = null;
 let calculationHistory = loadHistory();
 let hasError = false;
+let angleMode = readStorage(angleStorageKey) === "rad" ? "rad" : "deg";
 
 function readStorage(key) {
   try {
@@ -150,6 +153,7 @@ function calculate(left, operator, right) {
     case "+": return cleanNumber(left + right);
     case "−": return cleanNumber(left - right);
     case "×": return cleanNumber(left * right);
+    case "^": return cleanNumber(left ** right);
     case "÷":
       if (right === 0) {
         throw new Error("Cannot divide by zero.");
@@ -257,6 +261,107 @@ function applyPercent() {
   renderDisplay();
 }
 
+function applyScientific(name) {
+  if (hasError) {
+    return;
+  }
+
+  const value = Number(currentInput);
+  const radians = angleMode === "deg" ? value * Math.PI / 180 : value;
+  let result;
+  let expression;
+
+  try {
+    switch (name) {
+      case "sin":
+        result = Math.sin(radians);
+        expression = `sin(${formatNumber(value)}${angleMode === "deg" ? "°" : " rad"})`;
+        break;
+      case "cos":
+        result = Math.cos(radians);
+        expression = `cos(${formatNumber(value)}${angleMode === "deg" ? "°" : " rad"})`;
+        break;
+      case "tan":
+        if (Math.abs(Math.cos(radians)) < 1e-12) {
+          throw new Error("Tangent is undefined for this angle.");
+        }
+        result = Math.tan(radians);
+        expression = `tan(${formatNumber(value)}${angleMode === "deg" ? "°" : " rad"})`;
+        break;
+      case "asin":
+      case "acos":
+        if (value < -1 || value > 1) {
+          throw new Error("Inverse sine and cosine require a value from −1 to 1.");
+        }
+        result = name === "asin" ? Math.asin(value) : Math.acos(value);
+        if (angleMode === "deg") result *= 180 / Math.PI;
+        expression = `${name}(${formatNumber(value)})`;
+        break;
+      case "atan":
+        result = Math.atan(value);
+        if (angleMode === "deg") result *= 180 / Math.PI;
+        expression = `atan(${formatNumber(value)})`;
+        break;
+      case "ln":
+        if (value <= 0) throw new Error("Natural logarithm requires a value greater than zero.");
+        result = Math.log(value);
+        expression = `ln(${formatNumber(value)})`;
+        break;
+      case "log":
+        if (value <= 0) throw new Error("Logarithm requires a value greater than zero.");
+        result = Math.log10(value);
+        expression = `log(${formatNumber(value)})`;
+        break;
+      case "sqrt":
+        if (value < 0) throw new Error("Square root requires a non-negative value.");
+        result = Math.sqrt(value);
+        expression = `√(${formatNumber(value)})`;
+        break;
+      case "square":
+        result = value ** 2;
+        expression = `(${formatNumber(value)})²`;
+        break;
+      case "reciprocal":
+        if (value === 0) throw new Error("Cannot divide by zero.");
+        result = 1 / value;
+        expression = `1 ÷ ${formatNumber(value)}`;
+        break;
+      case "factorial":
+        if (!Number.isInteger(value) || value < 0) {
+          throw new Error("Factorial requires a non-negative whole number.");
+        }
+        if (value > 170) throw new Error("Factorial is supported up to 170.");
+        result = 1;
+        for (let factor = 2; factor <= value; factor += 1) result *= factor;
+        expression = `${formatNumber(value)}!`;
+        break;
+      default:
+        return;
+    }
+
+    result = cleanNumber(result);
+    currentInput = String(result);
+    displayExpression.textContent = `${expression} =`;
+    waitingForOperand = false;
+    justEvaluated = true;
+    lastOperator = null;
+    lastOperand = null;
+    renderDisplay();
+    saveCalculation(`${expression} =`, formatNumber(result));
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
+function enterConstant(name) {
+  if (hasError || justEvaluated) {
+    clearAll();
+  }
+  currentInput = String(name === "pi" ? Math.PI : Math.E);
+  waitingForOperand = false;
+  renderDisplay();
+}
+
 function deleteDigit() {
   if (hasError || justEvaluated) {
     clearAll();
@@ -281,9 +386,11 @@ function dispatchAction(action, value) {
   if (action === "sign") toggleSign();
   if (action === "percent") applyPercent();
   if (action === "delete") deleteDigit();
+  if (action === "scientific") applyScientific(value);
+  if (action === "constant") enterConstant(value);
 }
 
-keypad.addEventListener("click", (event) => {
+calculator.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
   if (button) {
     dispatchAction(button.dataset.action, button.dataset.value);
@@ -295,10 +402,13 @@ document.addEventListener("keydown", (event) => {
     enterDigit(event.key);
   } else if (event.key === ".") {
     enterDecimal();
-  } else if (["+", "-", "*", "/"].includes(event.key)) {
-    const operators = { "+": "+", "-": "−", "*": "×", "/": "÷" };
+  } else if (["+", "-", "*", "/", "^"].includes(event.key)) {
+    const operators = { "+": "+", "-": "−", "*": "×", "/": "÷", "^": "^" };
     chooseOperator(operators[event.key]);
   } else if (event.key === "Enter" || event.key === "=") {
+    if (event.key === "Enter" && event.target instanceof Element && event.target.closest("button, a, input, select, textarea")) {
+      return;
+    }
     event.preventDefault();
     pressEquals();
   } else if (event.key === "Backspace") {
@@ -329,8 +439,21 @@ clearHistoryButton.addEventListener("click", () => {
   persistHistory();
 });
 
+function renderAngleMode() {
+  angleToggle.textContent = angleMode.toUpperCase();
+  angleToggle.setAttribute("aria-pressed", String(angleMode === "rad"));
+  angleToggle.setAttribute("aria-label", `Angle mode: ${angleMode === "deg" ? "degrees" : "radians"}. Switch to ${angleMode === "deg" ? "radians" : "degrees"}`);
+}
+
+angleToggle.addEventListener("click", () => {
+  angleMode = angleMode === "deg" ? "rad" : "deg";
+  writeStorage(angleStorageKey, angleMode);
+  renderAngleMode();
+});
+
 const savedTheme = readStorage(themeStorageKey);
 applyTheme(savedTheme === "dark" ? "dark" : "light");
+renderAngleMode();
 document.querySelector("#copyright-year").textContent = String(new Date().getFullYear());
 renderDisplay();
 renderHistory();

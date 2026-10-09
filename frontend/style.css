@@ -241,6 +241,62 @@ h1 em {
   white-space: nowrap;
 }
 
+.scientific-panel {
+  padding: 12px 0 16px;
+  border-top: 1px solid var(--line);
+}
+
+.scientific-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.angle-toggle {
+  min-width: 48px;
+  min-height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface-muted);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.angle-toggle:hover {
+  border-color: #87b75c;
+}
+
+.scientific-keys {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.key-scientific {
+  min-height: 42px;
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.key-scientific:hover {
+  border-color: #a5cc7b;
+  background: var(--surface-muted);
+  color: var(--ink);
+}
+
 .keypad {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
