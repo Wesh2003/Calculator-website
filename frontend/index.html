@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2f6f1">
+    <meta name="description" content="A thoughtful, private calculator for everyday math.">
+    <title>Soma Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="Soma Calculator home">
+          <span class="brand-mark" aria-hidden="true">∑</span>
+          <span>Soma<span class="brand-period">.</span></span>
+        </a>
+        <div class="header-tools">
+          <span class="privacy-note"><span class="privacy-dot" aria-hidden="true"></span> Your calculations stay on this device</span>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
+            <span class="theme-icon" aria-hidden="true">☾</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">A little clarity, in every calculation</p>
+          <h1 id="page-title">Numbers, <em>in balance.</em></h1>
+        </section>
+
+        <div class="workspace">
+          <section class="calculator" aria-label="Calculator">
+            <div class="display" aria-live="polite" aria-atomic="true">
+              <p class="display-expression" id="display-expression" aria-label="Previous calculation"></p>
+              <p class="display-value" id="display-value" aria-label="Current value">0</p>
+            </div>
+
+            <div class="keypad" aria-label="Calculator keys">
+              <button class="key key-function" type="button" data-action="clear" aria-label="Clear all">AC</button>
+              <button class="key key-function" type="button" data-action="sign" aria-label="Change sign">+/−</button>
+              <button class="key key-function" type="button" data-action="percent" aria-label="Percent">%</button>
+              <button class="key key-operator" type="button" data-action="operator" data-value="÷" aria-label="Divide">÷</button>
+
+              <button class="key" type="button" data-action="digit" data-value="7">7</button>
+              <button class="key" type="button" data-action="digit" data-value="8">8</button>
+              <button class="key" type="button" data-action="digit" data-value="9">9</button>
+              <button class="key key-operator" type="button" data-action="operator" data-value="×" aria-label="Multiply">×</button>
+
+              <button class="key" type="button" data-action="digit" data-value="4">4</button>
+              <button class="key" type="button" data-action="digit" data-value="5">5</button>
+              <button class="key" type="button" data-action="digit" data-value="6">6</button>
+              <button class="key key-operator" type="button" data-action="operator" data-value="−" aria-label="Subtract">−</button>
+
+              <button class="key" type="button" data-action="digit" data-value="1">1</button>
+              <button class="key" type="button" data-action="digit" data-value="2">2</button>
+              <button class="key" type="button" data-action="digit" data-value="3">3</button>
+              <button class="key key-operator" type="button" data-action="operator" data-value="+" aria-label="Add">+</button>
+
+              <button class="key key-function" type="button" data-action="delete" aria-label="Delete last digit">DEL</button>
+              <button class="key" type="button" data-action="digit" data-value="0">0</button>
+              <button class="key" type="button" data-action="decimal" aria-label="Decimal point">.</button>
+              <button class="key key-equals" type="button" data-action="equals" aria-label="Equals">=</button>
+            </div>
+          </section>
+
+          <aside class="history" aria-labelledby="history-title">
+            <div class="history-heading">
+              <div>
+                <p class="eyebrow">Your recent work</p>
+                <h2 id="history-title">History</h2>
+              </div>
+              <button class="clear-history" id="clear-history" type="button" aria-label="Clear calculation history" title="Clear history">
+                <span aria-hidden="true">⌫</span>
+              </button>
+            </div>
+            <ol class="history-list" id="history-list" aria-live="polite"></ol>
+            <p class="history-empty" id="history-empty">Your calculations will appear here.</p>
+            <p class="history-footnote">Saved privately on this device</p>
+          </aside>
+        </div>
+        <p class="keyboard-note"><kbd>Enter</kbd> equals <span aria-hidden="true">·</span> <kbd>Esc</kbd> clear <span aria-hidden="true">·</span> <kbd>⌫</kbd> delete</p>
+      </main>
+
+      <footer class="site-footer">
+        <span>Made for the moments that add up.</span>
+        <span>© <span id="copyright-year"></span> Soma</span>
+      </footer>
+    </div>
+  </body>
+</html>
