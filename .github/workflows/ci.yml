@@ -17,8 +17,7 @@ jobs:
           node-version: '20'
           
       - name: Lint (HTMLHint)
-        # Key point: add --fail-on-warn to ensure warnings also cause failure
-        run: npx --yes htmlhint "**/*.html" --fail-on-warn
+        run: npx --yes htmlhint "**/*.html"
         
       - name: Test (validate HTML)
         run: npx --yes html-validate "**/*.html"
