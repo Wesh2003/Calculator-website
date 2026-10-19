@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -33,8 +33,8 @@
         <div class="workspace">
           <section class="calculator" aria-label="Calculator">
             <div class="display" aria-live="polite" aria-atomic="true">
-              <p class="display-expression" id="display-expression" aria-label="Previous calculation"></p>
-              <p class="display-value" id="display-value" aria-label="Current value">0</p>
+              <p class="display-expression" id="display-expression"></p>
+              <p class="display-value" id="display-value">0</p>
             </div>
 
             <section class="scientific-panel" aria-label="Scientific functions">
@@ -63,7 +63,7 @@
               </div>
             </section>
 
-            <div class="keypad" aria-label="Calculator keys">
+            <div class="keypad" role="group" aria-label="Calculator keys">
               <button class="key key-function" type="button" data-action="clear" aria-label="Clear all">AC</button>
               <button class="key key-function" type="button" data-action="sign" aria-label="Change sign">+/−</button>
               <button class="key key-function" type="button" data-action="percent" aria-label="Percent">%</button>
