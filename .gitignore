@@ -10,3 +10,10 @@ Desktop.ini
 # Logs and temporary files
 *.log
 *.tmp
+
+# Terraform local state and provider cache
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
